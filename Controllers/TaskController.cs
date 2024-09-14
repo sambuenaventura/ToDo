@@ -17,6 +17,15 @@ namespace api.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var tasks = _context.Tasks.ToList();
+
+            return Ok(tasks);
+        }
+
+
     }
 
 
