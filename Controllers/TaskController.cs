@@ -56,6 +56,30 @@ namespace api.Controllers
                 );
         }
 
+        [HttpPost]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateTaskDto updateTaskDto)
+        {
+            var existingTask = _context.Tasks.Find(id);
+
+            if (existingTask == null)
+            {
+                return NotFound();
+            }
+
+            existingTask.Name = updateTaskDto.Name;
+            existingTask.Description = updateTaskDto.Description;
+            existingTask.Due = updateTaskDto.Due;
+            existingTask.Priority = updateTaskDto.Priority;
+            existingTask.Status = updateTaskDto.Status;
+            existingTask.Tag = updateTaskDto.Tag;
+            existingTask.Attachment = updateTaskDto.Attachment;
+            
+            _context.SaveChanges();
+
+            return Ok(existingTask.ToTaskDto());
+        }
+
 
 
     }
