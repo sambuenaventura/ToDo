@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Dtos.Task;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,8 +41,22 @@ namespace api.Controllers
             return Ok(taskModel.ToTaskDto());
         }
 
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateTaskDto createTaskDto)
+        {
+            var taskModel = createTaskDto.ToTaskFromCreateDto();
+
+            _context.Tasks.Add(taskModel);
+            _context.SaveChanges();
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = taskModel.Id },
+                taskModel.ToTaskDto()
+                );
+        }
+
+
 
     }
-
-
 }
