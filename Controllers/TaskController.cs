@@ -31,9 +31,9 @@ namespace api.Controllers
         [Route("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
-            var taskModel = _context.Tasks.Find(id);
+            var taskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
 
-            if (taskModel == null)
+            if (taskModel == null)  
             {
                 return NotFound();
             }
@@ -80,7 +80,23 @@ namespace api.Controllers
             return Ok(existingTask.ToTaskDto());
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var existingTask = _context.Tasks.FirstOrDefault(x => x.Id == id);
+            
+            if (existingTask == null)
+            {
+                return NotFound();
+            }
 
+            _context.Remove(existingTask);
+            _context.SaveChanges();
+            
+            return Ok(existingTask);
+
+        }
 
     }
 }
