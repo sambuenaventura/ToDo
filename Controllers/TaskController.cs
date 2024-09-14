@@ -25,7 +25,15 @@ namespace api.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            var taskModel = _context.Tasks.Find(id);
 
+            return Ok(taskModel);
+        }
+        
     }
 
 
