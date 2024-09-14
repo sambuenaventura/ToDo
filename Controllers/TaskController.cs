@@ -56,7 +56,7 @@ namespace api.Controllers
                 );
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("{id}")]
         public IActionResult Update([FromRoute] int id, [FromBody] UpdateTaskDto updateTaskDto)
         {
