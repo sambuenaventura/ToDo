@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -31,9 +32,15 @@ namespace api.Controllers
         {
             var taskModel = _context.Tasks.Find(id);
 
-            return Ok(taskModel);
+            if (taskModel == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(taskModel.ToTaskDto());
         }
-        
+
+
     }
 
 
