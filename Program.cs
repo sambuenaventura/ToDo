@@ -1,6 +1,7 @@
 using api.Data;
 using api.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddDependencies();
 
 var app = builder.Build();
 
