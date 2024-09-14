@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Task;
+using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,89 +14,61 @@ namespace api.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        public readonly ApplicationDbContext _context;
-        public TaskController(ApplicationDbContext context)
+        private readonly ITaskService _taskService;
+
+        public TaskController(ITaskService taskService)
         {
-            _context = context;
+            _taskService = taskService;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var tasks = _context.Tasks.ToList();
-
+            var tasks = await _taskService.GetAllTasksAsync();
             return Ok(tasks);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var taskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
-
-            if (taskModel == null)  
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task == null)
             {
                 return NotFound();
             }
-            
-            return Ok(taskModel.ToTaskDto());
+            return Ok(task);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateTaskDto createTaskDto)
+        public async Task<IActionResult> Create([FromBody] CreateTaskDto createTaskDto)
         {
-            var taskModel = createTaskDto.ToTaskFromCreateDto();
-
-            _context.Tasks.Add(taskModel);
-            _context.SaveChanges();
-
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = taskModel.Id },
-                taskModel.ToTaskDto()
-                );
+            var createdTask = await _taskService.CreateTaskAsync(createTaskDto);
+            return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateTaskDto updateTaskDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTaskDto updateTaskDto)
         {
-            var existingTask = _context.Tasks.Find(id);
-
-            if (existingTask == null)
+            var updatedTask = await _taskService.UpdateTaskAsync(id, updateTaskDto);
+            if (updatedTask == null)
             {
                 return NotFound();
             }
-
-            existingTask.Name = updateTaskDto.Name;
-            existingTask.Description = updateTaskDto.Description;
-            existingTask.Due = updateTaskDto.Due;
-            existingTask.Priority = updateTaskDto.Priority;
-            existingTask.Status = updateTaskDto.Status;
-            existingTask.Tag = updateTaskDto.Tag;
-            existingTask.Attachment = updateTaskDto.Attachment;
-            
-            _context.SaveChanges();
-
-            return Ok(existingTask.ToTaskDto());
+            return Ok(updatedTask);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var existingTask = _context.Tasks.FirstOrDefault(x => x.Id == id);
-            
-            if (existingTask == null)
+            var result = await _taskService.DeleteTaskAsync(id);
+            if (!result)
             {
                 return NotFound();
             }
-
-            _context.Remove(existingTask);
-            _context.SaveChanges();
-            
-            return Ok(existingTask);
-
+            return NoContent();
         }
 
     }
