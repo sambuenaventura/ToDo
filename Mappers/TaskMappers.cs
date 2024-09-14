@@ -26,5 +26,19 @@ namespace api.Mappers
                 UpdatedAt = taskModel.UpdatedAt,
             };
         }
+
+        public static Task ToTaskFromCreateDto(this CreateTaskDto createTaskDto)
+        {
+            return new Task
+            {
+                Name = createTaskDto.Name,
+                Description = createTaskDto.Description,
+                Due = createTaskDto.Due,
+                Priority = createTaskDto.Priority,
+                Status = createTaskDto.Status,
+                Tag = createTaskDto.Tag,
+                Attachment = createTaskDto.Attachment,
+            };
+        }
     }
 }
