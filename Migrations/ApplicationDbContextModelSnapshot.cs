@@ -44,8 +44,8 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("");
 
-                    b.Property<DateOnly>("Due")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Due")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

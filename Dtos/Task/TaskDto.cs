@@ -11,7 +11,7 @@ namespace api.Dtos.Task
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DateOnly Due { get; set; }
+        public DateTime Due { get; set; }
         public PriorityLevel Priority { get; set; }
         public Status Status { get; set; }
         public string Tag { get; set; } = string.Empty;

@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240913182053_Init")]
+    [Migration("20240914113739_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -47,8 +47,8 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("");
 
-                    b.Property<DateOnly>("Due")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Due")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
