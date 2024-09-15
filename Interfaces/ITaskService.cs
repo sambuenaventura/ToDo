@@ -9,9 +9,9 @@ namespace api.Interfaces
     public interface ITaskService
     {
         Task<List<TaskDto>> GetAllTasksAsync();
-        Task<TaskDto> GetTaskByIdAsync(int id);
+        Task<TaskDto?> GetTaskByIdAsync(int id);
         Task<TaskDto> CreateTaskAsync(CreateTaskDto createTaskDto);
-        Task<TaskDto> UpdateTaskAsync(int id, UpdateTaskDto updateTaskDto);
+        Task<TaskDto?> UpdateTaskAsync(int id, UpdateTaskDto updateTaskDto);
         Task<bool> DeleteTaskAsync(int id);
     }
 }
