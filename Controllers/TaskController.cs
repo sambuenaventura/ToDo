@@ -6,6 +6,7 @@ using api.Data;
 using api.Dtos.Task;
 using api.Interfaces;
 using api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -22,6 +23,7 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var tasks = await _taskService.GetAllTasksAsync();
@@ -30,6 +32,7 @@ namespace api.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var task = await _taskService.GetTaskByIdAsync(id);
@@ -41,6 +44,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateTaskDto createTaskDto)
         {
             var createdTask = await _taskService.CreateTaskAsync(createTaskDto);
@@ -49,6 +53,7 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTaskDto updateTaskDto)
         {
             var updatedTask = await _taskService.UpdateTaskAsync(id, updateTaskDto);
@@ -61,6 +66,7 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _taskService.DeleteTaskAsync(id);
