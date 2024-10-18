@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018100026_Task")]
+    partial class Task
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +54,15 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "172a3e9b-3258-4419-907d-ba6ad6f6b870",
-                            ConcurrencyStamp = "1943cb24-546b-49af-83d3-01246d2c0d2f",
+                            Id = "5c695b0b-f856-4fff-9a64-df270d12b0cf",
+                            ConcurrencyStamp = "4cdbe14e-ae07-43f1-9440-491465d16bcc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "73874aa7-79ed-4c8f-915e-a3bff66f2680",
-                            ConcurrencyStamp = "bec5199d-7798-4687-ba0a-47f8f19a0dbf",
+                            Id = "0fbb700b-ee1c-47b4-ae1b-c38208fe862f",
+                            ConcurrencyStamp = "9caee6b7-194c-466b-be2c-4d65912d34bb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -246,38 +249,31 @@ namespace api.Migrations
 
                     b.Property<string>("Attachment")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Due")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Priority")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Tag")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
